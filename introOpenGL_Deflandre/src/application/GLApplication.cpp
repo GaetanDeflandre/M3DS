@@ -8,6 +8,9 @@ GLApplication::~GLApplication() {
 }
 
 GLApplication::GLApplication() {
+
+  /*
+  // Ancienne déclaration
   _trianglePosition = {
     -0.8,-0.5,0.0, // vertex 0
     -0.2,-0.5,0.0, // 1
@@ -17,6 +20,19 @@ GLApplication::GLApplication() {
     0.8,0.5,0.0,  // 4
     0.5,-0.5,0.0  // 5
   };
+  //*/
+
+  //*
+  // Nouvelle déclaration
+  _trianglePosition = {
+      -0.8,-0.5,0.0,// vertex 0 anciennement vertex 0
+      0.8,0.5,0.0,  // 1 anciennement 4
+      -0.5,0.5,0.0, // 2 anciennement 2
+      -0.2,-0.5,0.0,// 3 anciennement 1
+      0.5,-0.5,0.0, // 4 anciennement 5
+      0.2,0.5,0.0   // 5 anciennement 3
+  };
+  //*/
 
   _triangleColor = {
     0.3,0,0.6,1,
@@ -29,7 +45,8 @@ GLApplication::GLApplication() {
   };
 
 
-
+  /* Question 11: ordre des sommets */
+  _elementData = {0,3,2,5,1,4};
 
 }
 
@@ -81,7 +98,14 @@ void GLApplication::draw() {
   glUseProgram(_shader0);
   glBindVertexArray(_triangleVAO);
 
-  glDrawArrays(GL_TRIANGLES,0,3);
+
+  /*
+  // code initiale
+  glDrawArrays(GL_TRIANGLES,0,6);
+  */
+
+  /* Question 11 */
+  glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
 
   glBindVertexArray(0);
   glUseProgram(0);
@@ -157,6 +181,9 @@ GLuint GLApplication::initProgram(const std::string &filename) {
 
   glBindAttribLocation(program,0,"position");
 
+  /* Question 8 */
+  glBindAttribLocation(program,1,"color");
+  //glGetAttribLocation(program,"color");
 
 
   glLinkProgram(program);
@@ -200,7 +227,15 @@ void GLApplication::initTriangleBuffer() {
   glBindBuffer(GL_ARRAY_BUFFER,_trianglePositionBuffer);
   glBufferData(GL_ARRAY_BUFFER,_trianglePosition.size()*sizeof(float),_trianglePosition.data(),GL_STATIC_DRAW);
 
+  /* Question 8 */
+  glGenBuffers(1,&_triangleColorBuffer);
+  glBindBuffer(GL_ARRAY_BUFFER,_triangleColorBuffer);
+  glBufferData(GL_ARRAY_BUFFER,_triangleColor.size()*sizeof(float),_triangleColor.data(),GL_STATIC_DRAW);
 
+  /* Question 11 */
+  glGenBuffers(1,&_elementBuffer);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,_elementBuffer);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER,_elementData.size()*sizeof(unsigned int),_elementData.data(),GL_STATIC_DRAW);
 
 }
 
@@ -209,12 +244,22 @@ void GLApplication::initTriangleVAO() {
   glGenVertexArrays(1,&_triangleVAO);
   glBindVertexArray(_triangleVAO);
 
+  // position avec attribut 0
   glBindBuffer(GL_ARRAY_BUFFER,_trianglePositionBuffer);
   glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,0);
 
+  /* Question 8 */
+  // couleur avec attribut 1
+  glBindBuffer(GL_ARRAY_BUFFER,_triangleColorBuffer);
+  glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,0,0);
 
+  /* Question 11 */
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _elementBuffer);
 
+  // on active l'attribut 0
   glEnableVertexAttribArray(0);
+  // on active l'attribut 1
+  glEnableVertexAttribArray(1);
 
 
   glBindVertexArray(0);
