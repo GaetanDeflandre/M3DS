@@ -22,8 +22,8 @@ GLApplication::GLApplication() {
   };
   //*/
 
-  //*
-  // Nouvelle déclaration
+  /*
+  // Déclaration Question 9
   _trianglePosition = {
       -0.8,-0.5,0.0,// vertex 0 anciennement vertex 0
       0.8,0.5,0.0,  // 1 anciennement 4
@@ -34,6 +34,49 @@ GLApplication::GLApplication() {
   };
   //*/
 
+  /*
+  // Déclaration Question 13
+  _trianglePosition = {
+      -0.8,-0.8,0.0,
+      0.8,0.8,0.0,
+      0.0,0.2,0.0,
+      -0.8,0.8,0.0,
+      0.8,-0.8,0.0
+      //0.0,0.2,0.0
+  };
+  //*/
+
+  /*
+  // Déclaration Question 14
+  _trianglePosition = {
+      -0.8,-0.8,0.0,
+      -0.6,0.8,0.0,
+      -0.4,-0.6,0.0,
+      -0.2,0.6,0.0,
+      0.0,-0.8,0.0,
+      0.2,0.8,0.0,
+      0.4,-0.6,0.0,
+      0.6,0.6,0.0,
+      0.8,-0.8,0.0
+  };
+  //*/
+
+  /*
+  // Déclaration Question 17
+  _trianglePosition = {
+      -0.6,-0.6,0.0,
+      -0.6,0.6,0.0,
+      -0.2,-0.6,0.0,
+      -0.2,0.6,0.0,
+      0.2,-0.6,0.0,
+      0.2,0.6,0.0,
+      0.6,-0.6,0.0,
+      0.6,0.6,0.0,
+  };
+  //*/
+
+  /*
+  // Déclaration coleur initiale
   _triangleColor = {
     0.3,0,0.6,1,
     0.3,0,0.6,1,
@@ -43,14 +86,57 @@ GLApplication::GLApplication() {
     0.0,0.5,0.6,1,
     0.9,0.0,0.0,1
   };
+  //*/
+
+  // Question 14 tous les sommets à rouge :
+  _triangleColor.clear();
+
+  for(unsigned int i=0;i<9;++i) {
+      /*
+      _triangleColor.push_back(1);
+      _triangleColor.push_back(0);
+      _triangleColor.push_back(0);
+      _triangleColor.push_back(1);
+      */
+
+  }
 
 
   /* Question 11: ordre des sommets */
-  _elementData = {0,3,2,5,1,4};
+  //_elementData = {0,3,2,5,1,4};
+
+  /* Question 13 */
+  _elementData = {0,3,2,2,1,4};
+
+  _vertices_number = 8;
 
 }
 
+/* Question 18 */
+/** Initialise le tableau _trianglePosition */
+void GLApplication::initStrip(unsigned nbSlice,float xmin,float xmax,float ymin,float ymax){
+    _trianglePosition.clear();
 
+    float pas = (abs(xmax)+abs(xmin)) / nbSlice;
+
+    if(pas<=0){
+        cerr << "ERROR: Le pas est négatif" << endl;
+        return;
+    }
+
+    for(unsigned i=0; i<nbSlice; i++){
+
+        _trianglePosition.push_back(xmin + i*pas);
+        _trianglePosition.push_back(ymin);
+        _trianglePosition.push_back(0.0);
+
+        _trianglePosition.push_back(xmin + i*pas);
+        _trianglePosition.push_back(ymax);
+        _trianglePosition.push_back(0.0);
+    }
+
+    _vertices_number = nbSlice*2;
+}
 
 
 /** ********************************************************************** **/
@@ -60,12 +146,13 @@ void GLApplication::initialize() {
   glClearColor(1,1,1,1);
 
   glLineWidth(2.0);
-  glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
 
   _shader0=initProgram("simple");
 
 
+  initStrip(20,  -0.6, 0.6,  -0.3, 0.3);
   initTriangleBuffer();
   initTriangleVAO();
   initTexture();
@@ -105,7 +192,13 @@ void GLApplication::draw() {
   */
 
   /* Question 11 */
-  glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+  //glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+
+  /* Question 14 */
+  //glDrawArrays(GL_TRIANGLE_STRIP,0,9);
+
+  /* Question 17 */
+  glDrawArrays(GL_TRIANGLE_STRIP,0,_vertices_number);
 
   glBindVertexArray(0);
   glUseProgram(0);

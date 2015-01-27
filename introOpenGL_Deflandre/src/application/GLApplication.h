@@ -13,6 +13,7 @@ public:
   GLApplication();
   virtual ~GLApplication();
 
+  void initStrip(unsigned nbSlice,float xmin,float xmax,float ymin,float ymax);
 
   /** ***** **/
   /** GLApplication must implement these methods : */
@@ -44,7 +45,7 @@ private:
   GLuint _shader0;
   GLuint _textureId;
 
-
+  unsigned _vertices_number;
 
 };
 
