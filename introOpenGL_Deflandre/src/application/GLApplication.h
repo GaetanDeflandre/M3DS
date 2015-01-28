@@ -13,8 +13,6 @@ public:
   GLApplication();
   virtual ~GLApplication();
 
-  void initStrip(unsigned nbSlice,float xmin,float xmax,float ymin,float ymax);
-
   /** ***** **/
   /** GLApplication must implement these methods : */
   virtual void initialize();
@@ -46,6 +44,32 @@ private:
   GLuint _textureId;
 
   unsigned _vertices_number;
+  float _coeff;
+  float _coeff_step;
+
+  /**
+   * @brief initStrip
+   * Initialise les positions et couleurs des triangles afin d'obtenir
+   * un rectangle de \a nbSlice tranches.
+   *
+   * @param nbSlice
+   * @param xmin
+   * @param xmax
+   * @param ymin
+   * @param ymax
+   */
+  void initStrip(unsigned nbSlice,float xmin,float xmax,float ymin,float ymax);
+
+  /**
+   * @brief initRing
+   * Initialise les positions et couleurs des triangles afin d'obtenir
+   * un disque de \a nbSlice tranches.
+   *
+   * @param nbSlice
+   * @param r0 rayon intérieur
+   * @param r1 rayon extérieur
+   */
+  void initRing(unsigned nbSlice,float r0,float r1);
 
 };
 

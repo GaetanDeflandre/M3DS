@@ -1,6 +1,7 @@
 #include "GLApplication.h"
 
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -89,53 +90,153 @@ GLApplication::GLApplication() {
   //*/
 
   // Question 14 tous les sommets à rouge :
+  /*
   _triangleColor.clear();
 
   for(unsigned int i=0;i<9;++i) {
-      /*
+
+      // rouge
       _triangleColor.push_back(1);
       _triangleColor.push_back(0);
       _triangleColor.push_back(0);
       _triangleColor.push_back(1);
-      */
+
+      // vert
+      _triangleColor.push_back(0);
+      _triangleColor.push_back(1);
+      _triangleColor.push_back(0);
+      _triangleColor.push_back(1);
+
+      // bleu
+      _triangleColor.push_back(0);
+      _triangleColor.push_back(0);
+      _triangleColor.push_back(1);
+      _triangleColor.push_back(1);
+
+      // mangenta
+      _triangleColor.push_back(1);
+      _triangleColor.push_back(0);
+      _triangleColor.push_back(1);
+      _triangleColor.push_back(1);
+
+      // cyan
+      _triangleColor.push_back(0);
+      _triangleColor.push_back(1);
+      _triangleColor.push_back(1);
+      _triangleColor.push_back(1);
 
   }
+  //*/
 
 
   /* Question 11: ordre des sommets */
   //_elementData = {0,3,2,5,1,4};
 
   /* Question 13 */
-  _elementData = {0,3,2,2,1,4};
+  //_elementData = {0,3,2,2,1,4};
 
-  _vertices_number = 8;
+  // Question 21
+  _coeff = 0;
+  _coeff_step = 0.05;
 
 }
 
 /* Question 18 */
 /** Initialise le tableau _trianglePosition */
 void GLApplication::initStrip(unsigned nbSlice,float xmin,float xmax,float ymin,float ymax){
+
+    const float ALPHA = 1;
+
     _trianglePosition.clear();
+    _triangleColor.clear();
 
-    float pas = (abs(xmax)+abs(xmin)) / nbSlice;
+    float stepx = (abs(xmax)+abs(xmin)) / nbSlice;
+    float step_color = 1.0 / (float)nbSlice;
 
-    if(pas<=0){
+    if(stepx<=0 || step_color<=0){
         cerr << "ERROR: Le pas est négatif" << endl;
         return;
     }
 
-    for(unsigned i=0; i<nbSlice; i++){
+    for(unsigned i=0; i<=nbSlice; i++){
 
-        _trianglePosition.push_back(xmin + i*pas);
+
+        // SOMMETS DU BAS
+        // position
+        _trianglePosition.push_back(xmin + i*stepx);
         _trianglePosition.push_back(ymin);
         _trianglePosition.push_back(0.0);
 
-        _trianglePosition.push_back(xmin + i*pas);
+        // coleur
+        _triangleColor.push_back(0);
+        _triangleColor.push_back(step_color*i);
+        _triangleColor.push_back(0);
+        _triangleColor.push_back(ALPHA);
+
+
+        // SOMMETS DU HAUT
+        // position
+        _trianglePosition.push_back(xmin + i*stepx);
         _trianglePosition.push_back(ymax);
         _trianglePosition.push_back(0.0);
+
+        // coleur
+        _triangleColor.push_back(0);
+        _triangleColor.push_back(0);
+        _triangleColor.push_back(1 - (step_color*i));
+        _triangleColor.push_back(ALPHA);
     }
 
-    _vertices_number = nbSlice*2;
+    _vertices_number = (nbSlice+1)*2;
+}
+
+void GLApplication::initRing(unsigned nbSlice,float r0,float r1){
+
+    const float ALPHA = 1;
+
+    _trianglePosition.clear();
+    _triangleColor.clear();
+
+    float step_theta = 2*M_PI / (float)nbSlice;
+    float step_color = 1.0 / (float)nbSlice;
+
+    if(step_theta<=0 || step_color<=0){
+        cerr << "ERROR: Le pas est négatif" << endl;
+        return;
+    }
+
+    for(unsigned i=0; i<=nbSlice; i++){
+
+        float theta = i * step_theta;
+
+        // SOMMETS INTERIEUR
+        // position
+        _trianglePosition.push_back(r0 * cos(theta));
+        _trianglePosition.push_back(r0 * sin(theta));
+        _trianglePosition.push_back(0.0);
+
+        // coleur
+        _triangleColor.push_back(0);
+        _triangleColor.push_back(1/*step_color*i*/);
+        _triangleColor.push_back(0);
+        _triangleColor.push_back(ALPHA);
+
+
+        // SOMMETS EXTERIEUR
+        // position
+        _trianglePosition.push_back(r1 * cos(theta));
+        _trianglePosition.push_back(r1 * sin(theta));
+        _trianglePosition.push_back(0.0);
+
+        // coleur
+        _triangleColor.push_back(0);
+        _triangleColor.push_back(0);
+        _triangleColor.push_back(1/* - (step_color*i)*/);
+        _triangleColor.push_back(ALPHA);
+    }
+
+    _vertices_number = (nbSlice+1)*2;
+
 }
 
 
@@ -146,13 +247,14 @@ void GLApplication::initialize() {
   glClearColor(1,1,1,1);
 
   glLineWidth(2.0);
-  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+  glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
 
   _shader0=initProgram("simple");
 
 
-  initStrip(20,  -0.6, 0.6,  -0.3, 0.3);
+  //initStrip(30,  -0.8, 0.8,  -0.8, 0.8);
+  initRing(30, 0.2, 0.6);
   initTriangleBuffer();
   initTriangleVAO();
   initTexture();
@@ -174,6 +276,20 @@ void GLApplication::update() {
   // avant l'affichage de la prochaine image (animation)
   // ...
 
+  /* Question 21 */
+  /*
+  if(_coeff>1){
+    _coeff_step = _coeff_step*-1;
+  }
+
+  if(_coeff<0){
+    _coeff_step = abs(_coeff_step);
+  }
+
+  _coeff += _coeff_step;
+  //*/
+
+  _coeff = 1;
 
 }
 
@@ -185,7 +301,6 @@ void GLApplication::draw() {
   glUseProgram(_shader0);
   glBindVertexArray(_triangleVAO);
 
-
   /*
   // code initiale
   glDrawArrays(GL_TRIANGLES,0,6);
@@ -196,6 +311,10 @@ void GLApplication::draw() {
 
   /* Question 14 */
   //glDrawArrays(GL_TRIANGLE_STRIP,0,9);
+
+  /* Question 21 */
+  // Méthode a mettre juste avant le glDrawArrays
+  glUniform1f(glGetUniformLocation(_shader0,"coeff"),_coeff);
 
   /* Question 17 */
   glDrawArrays(GL_TRIANGLE_STRIP,0,_vertices_number);
@@ -277,7 +396,6 @@ GLuint GLApplication::initProgram(const std::string &filename) {
   /* Question 8 */
   glBindAttribLocation(program,1,"color");
   //glGetAttribLocation(program,"color");
-
 
   glLinkProgram(program);
   glGetProgramiv(program,GL_LINK_STATUS,&ok);
