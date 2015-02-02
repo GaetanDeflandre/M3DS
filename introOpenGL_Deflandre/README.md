@@ -46,6 +46,8 @@ On a la même couleur pour les deux sommets des triangles qui se touche car leur
 ont le même indice, la couleur associée au sommet d'incide 2 est la couleur d'indice 2 dans
 le tableau de couleurs.
 
+### Question 26
+
 
 
 
