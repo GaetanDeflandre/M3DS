@@ -48,6 +48,6 @@ le tableau de couleurs.
 
 ### Question 26
 
-
+TODO
 
 
