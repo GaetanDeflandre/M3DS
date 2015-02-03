@@ -10,8 +10,7 @@ out vec4 fColor;// Question 8
 out vec2 fTexCoord;// Question 22
 
 void main() {
-    vec3 newPosition=position;
-    newPosition = position * coeff;
+    vec3 newPosition=position * coeff;
     fColor = color;// Question 8
     fColor.g *= (1.0 - coeff);
     fTexCoord = texCoord;
