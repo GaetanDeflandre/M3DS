@@ -25,22 +25,44 @@ BasicMesh::BasicMesh() {
 
 void BasicMesh::initTetrahedron() {
     std::vector<float> position={
-        -1,0,-1, // V0
-        1,0,-1,  // V1
+        -1,0,-1,// V0
+        1,0,-1, // V1
+        0,1,1,  // V2
+
+        -1,0,-1,// V0
+        0,1,1,  // V2
+        0,-1,1, // V3
+
+        -1,0,-1,// V0
+        1,0,-1, // V1
+        0,-1,1, // V3
+
+        1,0,-1, // V1
         0,1,1,  // V2
         0,-1,1  // V3
     };
 
     std::vector<float> color={
         1,0,0, // rouge
+        1,0,0, // rouge
+        1,0,0, // rouge
+
         0,1,0, // vert
+        0,1,0, // vert
+        0,1,0, // vert
+
         0,0,1, // bleu
-        0,1,1  // magenta
+        0,0,1, // bleu
+        0,0,1, // bleu
+
+        0,1,1, // cyan
+        0,1,1, // cyan
+        0,1,1  // cyan
     };
 
     // index for 4 triangles
     _element={
-        0,1,2,0,2,3,0,1,3,1,2,3
+        0,1,2,3,4,5,6,7,8,9,10,11
     };
 
 
@@ -102,12 +124,22 @@ void BasicMesh::initVAO() {
 
     glGenVertexArrays(1,&_vao);
     glBindVertexArray(_vao);
+
     glBindBuffer(GL_ARRAY_BUFFER,_attributeBuffer);
+    //*
+    // Question 4
+    GLsizei bit_offset = sizeof(float) * (6);
+    // on multiplit par 6, car il y a 6 float de données avant de passé à une nouvelle "ligne" de données.
+    // x0f y0f z0f  r0f v0f b0f
+    // x1f y1f z1f  r1f v1f b1f
+    // ...
 
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, bit_offset, 0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, bit_offset, (void*)(3*sizeof(float)));
 
-    // TODO
-
-
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    //*/
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,_elementBuffer);
 
