@@ -60,3 +60,11 @@ cas dans notre exemple avec les faces verte et cyan.
  2. Lorsqu'on donne 0 à la fonction glClearDepth, les pixels des faces
     peuvent maintenant être tracées. On observe les faces du fond car
     elles ont une valeur de profondeur plus importante.
+
+ 3. Avec une valeur de 0.5, on voit les pixels qui se touve entre
+    [0;1] sur l'axe des z. Par défaut, l'axe de la caméra est orientié
+    sur l'axe des z. On retrouve tous les points dont la profondeur
+    est supérieur à 0.5, c'est-à-dire ce entre [0;1] sur l'axe Z, avec
+    les coordonnées reportées.
+
+    ![Pixels du tétraèdre entre 0 et 1 sur l'axe z](media/snapshot/capture_0002.png)

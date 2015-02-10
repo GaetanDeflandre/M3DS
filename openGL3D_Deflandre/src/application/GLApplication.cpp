@@ -16,7 +16,8 @@ GLApplication::GLApplication() {
 
     _angle=0.0;
 
-
+    // _projection de classe Matrix4 (déclaré dans GLApplication.h)
+    _projection.setOrtho(-20,20,-20,20,5,100); // cf calcul de la matrice dans le cours
 
 
 
@@ -36,8 +37,8 @@ void GLApplication::initialize() {
 
     // Elimination des parties cachées
     glEnable(GL_DEPTH_TEST); // activation Depth Buffer (opérations écriture/tests)
-    glDepthFunc(GL_GREATER); // le test passe si depth(src) < depth(dst)
-    glClearDepth(0); // valeur d'initialisation du depth destination de tous les pixels lors d'un glClear
+    glDepthFunc(GL_LESS); // le test passe si depth(src) < depth(dst)
+    glClearDepth(1.0); // valeur d'initialisation du depth destination de tous les pixels lors d'un glClear
 
 
     _shader.attribute("position",0);
@@ -63,7 +64,6 @@ void GLApplication::update() {
 
     _angle+=0.2;
 
-
     _transform.setTranslation(0,0,-15);
     _transform.rotate(_angle,Vector3(1,0.2,0));
     _transform.translate(0,0,15);
@@ -76,6 +76,8 @@ void GLApplication::draw() {
     //glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // affecte le color buffer et le depth buffer avec les valeurs d'initialisation
 
+    _shader.uniform("projection",_projection);  // utilisation de la classe shader pour alléger la syntaxe OpenGL
+    _shader.uniform("transform",_transform);
 
     glUseProgram(_shader.id());
 
