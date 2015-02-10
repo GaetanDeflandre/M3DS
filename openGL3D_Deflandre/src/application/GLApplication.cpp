@@ -34,14 +34,15 @@ void GLApplication::initialize() {
     //  glLineWidth(2.0);
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
-
+    // Elimination des parties cachées
+    glEnable(GL_DEPTH_TEST); // activation Depth Buffer (opérations écriture/tests)
+    glDepthFunc(GL_GREATER); // le test passe si depth(src) < depth(dst)
+    glClearDepth(0); // valeur d'initialisation du depth destination de tous les pixels lors d'un glClear
 
 
     _shader.attribute("position",0);
     _shader.attribute("color",1);
     _shader.read("openGL3D");
-
-
 
     _basicMesh.initDraw();
 }
@@ -72,7 +73,8 @@ void GLApplication::draw() {
     // appelée après chaque update
     // => tracer toute l'image
 
-    glClear(GL_COLOR_BUFFER_BIT);
+    //glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // affecte le color buffer et le depth buffer avec les valeurs d'initialisation
 
 
     glUseProgram(_shader.id());
