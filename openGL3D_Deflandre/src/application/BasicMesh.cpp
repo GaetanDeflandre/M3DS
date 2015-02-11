@@ -119,11 +119,29 @@ void BasicMesh::initObj(const ObjLoader &obj) {
     for(unsigned int i=0;i<obj.nbFace();++i) {
         for(unsigned int j=0;j<3;++j) {
 
-            // TODO
+            float nx, ny, nz;
 
+            _attribute.push_back(obj.positionVertex(i,j).x());
+            _attribute.push_back(obj.positionVertex(i,j).y());
+            _attribute.push_back(obj.positionVertex(i,j).z());
+
+            nx = obj.normalVertex(i,j).x();
+            ny = obj.normalVertex(i,j).y();
+            nz = obj.normalVertex(i,j).z();
+
+            /*
+            // Couleur [0;1]
+            _attribute.push_back( (nx+1.0) / 2.0 );
+            _attribute.push_back( (ny+1.0) / 2.0 );
+            _attribute.push_back( (nz+1.0) / 2.0 );
+            //*/
+
+            // Normale [-1;1]
+            _attribute.push_back(nx);
+            _attribute.push_back(ny);
+            _attribute.push_back(nz);
         }
     }
-
 
 }
 
@@ -174,7 +192,11 @@ void BasicMesh::initDraw() {
 void BasicMesh::draw() {
     glBindVertexArray(_vao);
 
-    glDrawElements(GL_TRIANGLES,_element.size(),GL_UNSIGNED_INT,(const GLvoid *)(0*sizeof(GLuint)));
+    // Avant obj
+    //glDrawElements(GL_TRIANGLES,_element.size(),GL_UNSIGNED_INT,(const GLvoid *)(0*sizeof(GLuint)));
+
+    // Avec obj
+    glDrawArrays(GL_TRIANGLES, 0, _attribute.size()/6);
 
     glBindVertexArray(0);
 }
