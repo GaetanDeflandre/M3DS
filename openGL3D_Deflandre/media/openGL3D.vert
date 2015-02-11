@@ -10,6 +10,14 @@ uniform mat4 transform;
 
 void main() {
     vec4 eyePosition=vec4(position,1); // passage en coordonnées homogènes
+
+    // Q6
+    //vec4 clipPosition=eyePosition;
+
+    // Q10
+    //vec4 clipPosition=projection*eyePosition;
+
+    // Q15
     vec4 clipPosition=projection*transform*eyePosition; // transformation par la matrice de projection
 
     fColor=color;

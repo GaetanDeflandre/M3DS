@@ -63,8 +63,6 @@ void GLApplication::update() {
     // ...
 
     _angle+=0.2;
-    cout << "angle: " << _angle << endl;
-
 
     _transform.setTranslation(0,0,-15);
     _transform.rotate(_angle,Vector3(1,0.2,0));
@@ -78,10 +76,11 @@ void GLApplication::draw() {
     //glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // affecte le color buffer et le depth buffer avec les valeurs d'initialisation
 
+    // /!\ A mettre avant la déclaration des uniform
+    glUseProgram(_shader.id());
+
     _shader.uniform("projection",_projection);  // utilisation de la classe shader pour alléger la syntaxe OpenGL
     _shader.uniform("transform",_transform);
-
-    glUseProgram(_shader.id());
 
     _basicMesh.draw();
     glUseProgram(0);
