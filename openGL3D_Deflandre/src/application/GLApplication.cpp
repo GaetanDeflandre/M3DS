@@ -63,6 +63,8 @@ void GLApplication::update() {
     // ...
 
     _angle+=0.2;
+    cout << "angle: " << _angle << endl;
+
 
     _transform.setTranslation(0,0,-15);
     _transform.rotate(_angle,Vector3(1,0.2,0));
