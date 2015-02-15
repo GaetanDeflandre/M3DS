@@ -7,15 +7,18 @@ TP2: OpenGL
  - Gaëtan DEFLANDRE
  
  
-## Doit contenir :
-
- - ce que vous n'avez pas fait (et pourquoi).
-   - test
+## Détails
+   
  - difficultés rencontrées.
-   - test
+   - Pour la question bonus je n'ai pas pensé tout de suite à mettre
+     le w à 0, pour les vecteurs dans le vertex shader.
    
  - commentaires éventuels sur le TP (points à éclaircir, longueur du
    sujet, etc).
+    - La couleur magenta du TP est en fait cyan. :)
+    - J'ai eu un problème, car la ligne `glUseProgram(_shader.id());`
+      était sous les uniform. La solution a été trouvée avec le
+      professeur.
 
 
 ## Réponses
