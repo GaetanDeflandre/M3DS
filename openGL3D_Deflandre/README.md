@@ -124,3 +124,5 @@ même position.
     float intensity = max(dot(N,L),0.0);
 
     fColor = intensity * diffuseColor;
+
+![Vache avec normale et lumière](media/snapshot/capture_0012.png)
