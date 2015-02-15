@@ -71,9 +71,10 @@ void GLApplication::update() {
     _angle+=0.2;
     //_angle=0;
 
-    _transform.setTranslation(0,0,-15);
-    _transform.rotate(_angle,Vector3(1,0.2,0));
-    _transform.translate(0,0,15);
+    _transform.setTranslation(0,0,-20);
+    _transform.rotate(_angle,Vector3(1,0,0));
+    _transform.translate(0,0,20);
+
 }
 
 void GLApplication::draw() {

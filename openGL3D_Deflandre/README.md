@@ -9,10 +9,13 @@ TP2: OpenGL
  
 ## Doit contenir :
 
-- ce que vous n'avez pas fait (et pourquoi).
-- difficultés rencontrées.
-- commentaires éventuels sur le TP (points à éclaircir, longueur du
-  sujet, etc).
+ - ce que vous n'avez pas fait (et pourquoi).
+   - test
+ - difficultés rencontrées.
+   - test
+   
+ - commentaires éventuels sur le TP (points à éclaircir, longueur du
+   sujet, etc).
 
 
 ## Réponses
@@ -95,6 +98,29 @@ même position.
 ![Vache avec normale et lumière](media/snapshot/capture_0008.png)
 
 
-### Question 26.
+### Question 26
 
 ![Vache avec normale et lumière](media/snapshot/capture_0010.png)
+
+
+### Question 27 (Bonus)
+
+#### Vertex shader
+
+    // Q24 & 27: Normale
+
+    // On passe les vecteurs des normales et de la source en vecteur 4.
+    // Les vecteurs des normales et de la source ne sont pas des points,
+	// mais des vecteurs, alors on met le w à 0
+    float w = 0.0;
+    vec4 N = vec4(normal,w);
+    vec4 L = vec4(lightPosition,w);
+
+    N = transform*N;
+
+    N = normalize(N);
+    L = normalize(L);
+
+    float intensity = max(dot(N,L),0.0);
+
+    fColor = intensity * diffuseColor;

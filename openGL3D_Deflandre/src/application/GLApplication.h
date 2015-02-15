@@ -37,6 +37,7 @@ private:
   BasicMesh _basicMesh;
   p3d::Matrix4 _projection;
   p3d::Matrix4 _transform;
+  p3d::Matrix4 _transformNormal;
   p3d::Vector3 _lightPosition;
 
   double _angle;

@@ -7,6 +7,7 @@ uniform vec3 diffuseColor;
 
 uniform mat4 projection;
 uniform mat4 transform;
+uniform mat4 transformNormal;
 
 out vec3 fColor;
 
@@ -19,9 +20,16 @@ void main() {
     gl_Position=clipPosition;
 
 
-    // Q24: Normale
-    vec3 N = normal;
-    vec3 L = lightPosition;
+    // Q24 & 27: Normale
+
+    // On passe les vecteurs des normales et de la source en vecteur 4.
+    // Les vecteurs des normales et de la source ne sont pas des points,
+    // mais des vecteurs, alors on met le w à 0
+    float w = 0.0;
+    vec4 N = vec4(normal,w);
+    vec4 L = vec4(lightPosition,w);
+
+    N = transform*N;
 
     N = normalize(N);
     L = normalize(L);
