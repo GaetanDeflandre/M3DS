@@ -7,7 +7,6 @@ TP3: Car Plane
  - DEFLANDRE Gaëtan
 
 
-
 ## Détails
 
  - ce que vous n'avez pas fait (et pourquoi).
@@ -20,9 +19,6 @@ TP3: Car Plane
      repère. Comme, par exemple, changer le repère d'une direction
      avec de l'additionner avec une position de repère "compatible".
 	 
-
-
-
 
 ## Réponses aux questions
 
