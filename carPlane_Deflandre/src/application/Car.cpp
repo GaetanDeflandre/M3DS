@@ -88,12 +88,14 @@ void Car::drawAxle() {
     // Roue 1
     p3d::modelviewMatrix.push();
     p3d::modelviewMatrix.translate(-3,0,0);
+    p3d::modelviewMatrix.rotate(-_rotateWheel/8,1,0,0);
     drawWheel();
     p3d::modelviewMatrix.pop();
 
     // Roue 2
     p3d::modelviewMatrix.push();
     p3d::modelviewMatrix.translate(3,0,0);
+    p3d::modelviewMatrix.rotate(-_rotateWheel/8,1,0,0);
     drawWheel();
     p3d::modelviewMatrix.pop();
 
@@ -123,7 +125,8 @@ void Car::drawBody() {
 
 void Car::draw() {
     p3d::modelviewMatrix.push();
-    //p3d::modelviewMatrix.scale(0.5,0.5,0.5);
+    p3d::modelviewMatrix.scale(0.5,0.5,0.5);
+    p3d::modelviewMatrix.translate(0,-3,0);
 
     // Carrosserie
     p3d::modelviewMatrix.push();
@@ -135,14 +138,13 @@ void Car::draw() {
     // Essieu arrière
     p3d::modelviewMatrix.push();
     p3d::modelviewMatrix.translate(0,-2,2);
-    p3d::modelviewMatrix.rotate(-_rotateWheel,1,0,0);
     drawAxle();
     p3d::modelviewMatrix.pop();
 
     // Essieu avant
     p3d::modelviewMatrix.push();
     p3d::modelviewMatrix.translate(0,-2,-2);
-    p3d::modelviewMatrix.rotate(-_rotateWheel,1,0,0);
+    p3d::modelviewMatrix.rotate(_steering,0,1,0);
     drawAxle();
     p3d::modelviewMatrix.pop();
 
@@ -154,17 +156,31 @@ void Car::drawWorld() {
 
     p3d::modelviewMatrix.push();
 
+    p3d::modelviewMatrix.translate(_position);
+    p3d::modelviewMatrix.rotate(_orientation);
+
     draw(); // tracé de la voiture dans son repère local
     p3d::modelviewMatrix.pop();
 }
 
 void Car::move() {
-    _acceleration+=-_velocity/50;
+
+    // coefficients réducteurs
+    const double reduc_roues = 0.02;
+    const double reduc_vitesse = 0.3;
+
+    _acceleration+=-_velocity * reduc_roues;
     _velocity+=_acceleration;
     _rotateWheel+=_velocity*20;
     _steering-=_steering/10*fabs(_velocity);
 
     _orientation.rotate(_steering*_velocity/(1.0+fabs(_velocity)),Vector3(0,1,0)); // le /100 est déterminé par essai/erreur
+
+    // La direction dans le repère local de la voiture
+    Vector3 direction = Vector3(0,0,-_velocity) * reduc_vitesse;
+
+    // Chagement de repère
+    _position += _orientation*direction;
 
 }
 
