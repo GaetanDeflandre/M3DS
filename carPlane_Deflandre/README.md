@@ -8,12 +8,19 @@ TP3: Car Plane
 
 
 
-## Doit contenir :
+## Détails
 
  - ce que vous n'avez pas fait (et pourquoi).
+   - Le tp est totalement fini et fonctionnel.
+   
  - difficultés rencontrées.
- - commentaires éventuels sur le TP (points à éclaircir, longueur du
-   sujet, etc).
+   - Un peu de difficultés pour placer la caméra. Surtout pour la
+     mettre un peu dernière l'avion ou la voiture. Maintenant, c'est
+     plus clair, je comprends mieux le système de changement de
+     repère. Comme, par exemple, changer le repère d'une direction
+     avec de l'additionner avec une position de repère "compatible".
+	 
+
 
 
 
