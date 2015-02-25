@@ -98,7 +98,11 @@ void WVertex::computePointVertex() {
 void WVertex::drawLineCatmull() {
   WEdge *e=this->edge();
   do {
-    p3d::drawLines({this->pointVertex(),e->pointEdge()});
+    std::vector<p3d::Vector3> points;
+    points.clear();
+    points.push_back(this->pointVertex());
+    points.push_back(e->pointEdge());
+    p3d::drawLines(points);
     if (this==e->begin())
       e=e->predLeft();
     else
