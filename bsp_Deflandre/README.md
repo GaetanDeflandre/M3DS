@@ -10,8 +10,11 @@ TP4: BSP
 ## Détails
 
  - ce que vous n'avez pas fait (et pourquoi).
- - difficultés rencontrées.
- - commentaires éventuels sur le TP (points à éclaircir, longueur du
-   sujet, etc).
+   - Tout le TP a été réalisé, mais je ne sais pas si ma méthodes
+     `FaceBSP::intersection` est parfaite, pour l'avant dernière
+     question.
+   - Je n'ai pas répondu à la dernière question.
 
+ - difficultés rencontrées.
+   - Le découpage en des facette
 

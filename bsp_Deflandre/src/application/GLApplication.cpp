@@ -39,9 +39,9 @@ GLApplication::GLApplication() {
 
   // pour test simple de découpe
 
-  // TODO : à changer
+  //_bsp3.read("simple_nontri.obj");
+  _bsp3.read("wolf.obj");
 
-  _bsp3.read("simple_nontri.obj");
 
 }
 
