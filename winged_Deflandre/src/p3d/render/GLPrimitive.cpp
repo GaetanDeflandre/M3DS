@@ -580,6 +580,7 @@ void drawLines(const std::vector<Vector2> &point,int nbVertex) {
 
 
 void drawPoints(const std::vector<Vector3> &point) {
+  /*
   if (point.empty()) {
     if (!_pointsPoint) {
       return;
@@ -587,6 +588,8 @@ void drawPoints(const std::vector<Vector3> &point) {
     }
   }
   else {
+  */
+  {
     if (true) {//!_pointsPoint || _pointsPoint->nbVertex()!=point.size()) {
       delete _pointsPoint;
       _pointsPoint=new VertexArray(GL_POINTS);

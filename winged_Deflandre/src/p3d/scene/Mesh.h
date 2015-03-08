@@ -31,6 +31,7 @@ public:
 
 typedef std::vector<VertexAttrib> VertexFace;
 
+// modulo operator (% gives the remainder)
 static inline int cycle(int i,int nb) {
     return (i%nb+nb)%nb;
 }

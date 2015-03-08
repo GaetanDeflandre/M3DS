@@ -36,9 +36,21 @@ void WFace::draw(bool withNormal) {
     vector<Vector3> normal;
     normal.clear();
 
-    // TODO : compléter
+    do {
 
+        if(e->left() == this) {
+            v = e->end();
+            position.push_back(v->position());
+            normal.push_back(v->normal());
+            e = e->succLeft();
+        } else {
+            v = e->begin();
+            position.push_back(v->position());
+            normal.push_back(v->normal());
+            e = e->succRight();
+        }
 
+    } while(e != start);
 
     // A Laisser à la fin (effectue un affichage polygone par polygone : lent => uniquement pour vérification/TP)
     if (withNormal)
@@ -93,11 +105,7 @@ void WFace::computePointFace() {
 void WFace::drawLineCatmull() {
     WEdge *e=this->edge();
     do {
-        std::vector<p3d::Vector3> points;
-        points.clear();
-        points.push_back(this->pointFace());
-        points.push_back(e->pointEdge());
-        p3d::drawLines(points);
+        p3d::drawLines(std::vector<p3d::Vector3>{this->pointFace(),e->pointEdge()});
         if (this==e->left())
             e=e->succLeft();
         else

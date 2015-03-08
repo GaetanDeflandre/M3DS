@@ -192,8 +192,8 @@ bool Camera::windowToRayWorld(const Vector2 &mouse,Line *l) {
       u=mouseCam;
     }
     else {
-      a=mouseCam;
-      u=Vector3(0,0,1);
+      a=Vector3(mouseCam.x(),mouseCam.y(),0);
+      u=Vector3(0,0,mouseCam.z());
     }
     pointTo(Coordinate_World,&a);
     directionTo(Coordinate_World,&u);
