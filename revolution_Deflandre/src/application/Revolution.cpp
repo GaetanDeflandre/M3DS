@@ -29,17 +29,20 @@ void Revolution::initSphere() {
 
     vector<unsigned int> index;
 
-    double phi, theta;
+    unsigned nbSlice=20; // include last slice that closes sphere
+    unsigned nbStack=20;
 
-    int nbSlice=20; // include last slice that closes sphere
-    int nbStack=20;
 
     // *******
-    //  TODO
-    for(int i=0; i<nbStack; i++) {
-        for(int j=0; j<nbSlice; j++) {
-            theta = (double)(2*M_PI*i) / (double)nbStack;
-            phi   = (double)(M_PI*j)   / (double)nbSlice;
+    //  ITDID
+
+    // stacks
+    for(unsigned i=0; i<=nbStack; i++) {
+
+        // slices
+        for(unsigned j=0; j<nbSlice; j++) {
+            double theta = (double)(2*M_PI*j) / (double)nbSlice;
+            double phi   = (double)(M_PI*i)   / (double)nbStack;
 
             float x = cos(theta)*sin(phi);
             float y = cos(phi);
@@ -49,16 +52,29 @@ void Revolution::initSphere() {
             p.push_back(y);
             p.push_back(z);
 
-            index.push_back((j%nbSlice)+nbStack);
-            index.push_back((j%nbStack)+nbSlice);
-            index.push_back((j%nbStack)+nbSlice+1);
+            // le vecteur normal est sur la droite qui
+            // passe par le centre de la sphère et le sommet de la normale
+            n.push_back(x);
+            n.push_back(y);
+            n.push_back(z);
 
-            index.push_back((j%nbSlice)+nbStack);
-            index.push_back((j%nbSlice)+nbStack+1);
-            index.push_back((j%nbStack)+nbSlice+1);
+            t.push_back(((float)nbSlice-(float)j) / (float)nbSlice);
+            t.push_back(((float)nbStack-(float)i) / (float)nbStack);
+
         }
     }
 
+    unsigned nbPoints = nbStack * nbSlice;
+    for(unsigned i=0; i<nbPoints; i++) {
+
+        index.push_back(i+nbSlice);
+        index.push_back(i);
+        index.push_back(i+1);
+        index.push_back(i+1);
+        index.push_back(i+1+nbSlice);
+        index.push_back(i+nbSlice);
+
+    }
 
 
     // *******
@@ -83,12 +99,498 @@ void Revolution::initCube() {
     // *******
     //  TODO
 
+    /*
+    // Exercice 4 Q1: 8 sommets
+    for(int x=1; x>=-1; x=x-2){
+        for(int y=1; y>=-1; y=y-2){
+            for(int z=1; z>=-1; z=z-2){
+                p.push_back((float)x);
+                p.push_back((float)y);
+                p.push_back((float)z);
+            }
+        }
+    }
 
+    // Face front
+    index.push_back(0);
+    index.push_back(4);
+    index.push_back(6);
+
+    index.push_back(0);
+    index.push_back(6);
+    index.push_back(2);
+
+    // Face rigth
+    index.push_back(1);
+    index.push_back(0);
+    index.push_back(2);
+
+    index.push_back(1);
+    index.push_back(2);
+    index.push_back(3);
+
+    // Face left
+    index.push_back(4);
+    index.push_back(5);
+    index.push_back(6);
+
+    index.push_back(5);
+    index.push_back(7);
+    index.push_back(6);
+
+    // Face back
+    index.push_back(5);
+    index.push_back(1);
+    index.push_back(3);
+
+    index.push_back(5);
+    index.push_back(3);
+    index.push_back(7);
+
+    // Face up
+    index.push_back(1);
+    index.push_back(5);
+    index.push_back(4);
+
+    index.push_back(1);
+    index.push_back(4);
+    index.push_back(0);
+
+    // Face down
+    index.push_back(7);
+    index.push_back(3);
+    index.push_back(2);
+
+    index.push_back(7);
+    index.push_back(2);
+    index.push_back(6);
+    */
+
+    // Exercice 4 Q2
+
+    // Face front
+    // Triangle 1
+    // v0
+    p.push_back(1);
+    p.push_back(1);
+    p.push_back(1);
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(1);
+    t.push_back(0);
+    t.push_back(0.5);
+    index.push_back(0);
+
+    // v1
+    p.push_back(-1);
+    p.push_back(1);
+    p.push_back(1);
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(1);
+    t.push_back(0.33);
+    t.push_back(0.5);
+    index.push_back(1);
+
+    // v2
+    p.push_back(1);
+    p.push_back(-1);
+    p.push_back(1);
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(1);
+    t.push_back(0);
+    t.push_back(1);
+    index.push_back(2);
+
+    // Triangle 2
+    // v2
+    p.push_back(1);
+    p.push_back(-1);
+    p.push_back(1);
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(1);
+    t.push_back(0);
+    t.push_back(1);
+    index.push_back(3);
+
+    // v1
+    p.push_back(-1);
+    p.push_back(1);
+    p.push_back(1);
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(1);
+    t.push_back(0.33);
+    t.push_back(0.5);
+    index.push_back(4);
+
+
+    // v3
+    p.push_back(-1);
+    p.push_back(-1);
+    p.push_back(1);
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(1);
+    t.push_back(0);
+    t.push_back(0.5);
+    index.push_back(5);
+
+
+
+    // Face rigth
+    // Triangle 1
+    // v0
+    p.push_back(1);
+    p.push_back(1);
+    p.push_back(1);
+    n.push_back(1);
+    n.push_back(0);
+    n.push_back(0);
+    t.push_back(0.33);
+    t.push_back(0.5);
+    index.push_back(6);
+
+    // v2
+    p.push_back(1);
+    p.push_back(-1);
+    p.push_back(1);
+    n.push_back(1);
+    n.push_back(0);
+    n.push_back(0);
+    t.push_back(0.33);
+    t.push_back(0);
+    index.push_back(7);
+
+    // v6
+    p.push_back(1);
+    p.push_back(-1);
+    p.push_back(-1);
+    n.push_back(1);
+    n.push_back(0);
+    n.push_back(0);
+    t.push_back(0.66);
+    t.push_back(0);
+    index.push_back(8);
+
+    // Triangle 2
+    // v0
+    p.push_back(1);
+    p.push_back(1);
+    p.push_back(1);
+    n.push_back(1);
+    n.push_back(0);
+    n.push_back(0);
+    t.push_back(0.33);
+    t.push_back(0.5);
+    index.push_back(9);
+
+    // v6
+    p.push_back(1);
+    p.push_back(-1);
+    p.push_back(-1);
+    n.push_back(1);
+    n.push_back(0);
+    n.push_back(0);
+    t.push_back(0.66);
+    t.push_back(0);
+    index.push_back(10);
+
+
+    // v4
+    p.push_back(1);
+    p.push_back(1);
+    p.push_back(-1);
+    n.push_back(1);
+    n.push_back(0);
+    n.push_back(0);
+    t.push_back(0.66);
+    t.push_back(0.5);
+    index.push_back(11);
+
+    // Face left
+    // Triangle 1
+    // v1
+    p.push_back(-1);
+    p.push_back(1);
+    p.push_back(1);
+    n.push_back(-1);
+    n.push_back(0);
+    n.push_back(0);
+    t.push_back(0.33);
+    t.push_back(1);
+    index.push_back(12);
+
+    // v7
+    p.push_back(-1);
+    p.push_back(-1);
+    p.push_back(-1);
+    n.push_back(-1);
+    n.push_back(0);
+    n.push_back(0);
+    t.push_back(0.66);
+    t.push_back(0.5);
+    index.push_back(13);
+
+    // v3
+    p.push_back(-1);
+    p.push_back(-1);
+    p.push_back(1);
+    n.push_back(-1);
+    n.push_back(0);
+    n.push_back(0);
+    t.push_back(0.33);
+    t.push_back(0.5);
+    index.push_back(14);
+
+
+    // Triangle 2
+    // v1
+    p.push_back(-1);
+    p.push_back(1);
+    p.push_back(1);
+    n.push_back(-1);
+    n.push_back(0);
+    n.push_back(0);
+    t.push_back(0.33);
+    t.push_back(1);
+    index.push_back(15);
+
+    // v5
+    p.push_back(-1);
+    p.push_back(1);
+    p.push_back(-1);
+    n.push_back(-1);
+    n.push_back(0);
+    n.push_back(0);
+    t.push_back(0.66);
+    t.push_back(1);
+    index.push_back(16);
+
+    // v7
+    p.push_back(-1);
+    p.push_back(-1);
+    p.push_back(-1);
+    n.push_back(-1);
+    n.push_back(0);
+    n.push_back(0);
+    t.push_back(0.66);
+    t.push_back(0.5);
+    index.push_back(17);
+
+    // Face back
+    // Triangle 1
+    // v6
+    p.push_back(1);
+    p.push_back(-1);
+    p.push_back(-1);
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(-1);
+    t.push_back(1);
+    t.push_back(0);
+    index.push_back(18);
+
+    // v5
+    p.push_back(-1);
+    p.push_back(1);
+    p.push_back(-1);
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(-1);
+    t.push_back(0.66);
+    t.push_back(0.5);
+    index.push_back(19);
+
+    // v4
+    p.push_back(1);
+    p.push_back(1);
+    p.push_back(-1);
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(-1);
+    t.push_back(1);
+    t.push_back(0.5);
+    index.push_back(20);
+
+
+    // Triangle 2
+    // v5
+    p.push_back(-1);
+    p.push_back(1);
+    p.push_back(-1);
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(-1);
+    t.push_back(0.66);
+    t.push_back(0.5);
+    index.push_back(21);
+
+    // v6
+    p.push_back(1);
+    p.push_back(-1);
+    p.push_back(-1);
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(-1);
+    t.push_back(1);
+    t.push_back(0);
+    index.push_back(22);
+
+    // v7
+    p.push_back(-1);
+    p.push_back(-1);
+    p.push_back(-1);
+    n.push_back(0);
+    n.push_back(0);
+    n.push_back(-1);
+    t.push_back(0.66);
+    t.push_back(0);
+    index.push_back(23);
+
+    // Face up
+    // Triangle 1
+    // v5
+    p.push_back(-1);
+    p.push_back(1);
+    p.push_back(-1);
+    n.push_back(0);
+    n.push_back(1);
+    n.push_back(0);
+    t.push_back(0);
+    t.push_back(0.5);
+    index.push_back(24);
+
+    // v1
+    p.push_back(-1);
+    p.push_back(1);
+    p.push_back(1);
+    n.push_back(0);
+    n.push_back(1);
+    n.push_back(0);
+    t.push_back(0);
+    t.push_back(0);
+    index.push_back(25);
+
+    // v4
+    p.push_back(1);
+    p.push_back(1);
+    p.push_back(-1);
+    n.push_back(0);
+    n.push_back(1);
+    n.push_back(0);
+    t.push_back(0.33);
+    t.push_back(0.5);
+    index.push_back(26);
+
+
+    // Triangle 2
+    // v0
+    p.push_back(1);
+    p.push_back(1);
+    p.push_back(1);
+    n.push_back(0);
+    n.push_back(1);
+    n.push_back(0);
+    t.push_back(0.33);
+    t.push_back(0);
+    index.push_back(27);
+
+    // v4
+    p.push_back(1);
+    p.push_back(1);
+    p.push_back(-1);
+    n.push_back(0);
+    n.push_back(1);
+    n.push_back(0);
+    t.push_back(0.33);
+    t.push_back(0.5);
+    index.push_back(28);
+
+    // v1
+    p.push_back(-1);
+    p.push_back(1);
+    p.push_back(1);
+    n.push_back(0);
+    n.push_back(1);
+    n.push_back(0);
+    t.push_back(0);
+    t.push_back(0);
+    index.push_back(29);
+
+    // Face down
+    // Triangle 1
+    // v2
+    p.push_back(1);
+    p.push_back(-1);
+    p.push_back(1);
+    n.push_back(0);
+    n.push_back(-1);
+    n.push_back(0);
+    t.push_back(1);
+    t.push_back(0.5);
+    index.push_back(30);
+
+    // v3
+    p.push_back(-1);
+    p.push_back(-1);
+    p.push_back(1);
+    n.push_back(0);
+    n.push_back(-1);
+    n.push_back(0);
+    t.push_back(0.66);
+    t.push_back(0.5);
+    index.push_back(31);
+
+    // v7
+    p.push_back(-1);
+    p.push_back(-1);
+    p.push_back(-1);
+    n.push_back(0);
+    n.push_back(-1);
+    n.push_back(0);
+    t.push_back(0.66);
+    t.push_back(1);
+    index.push_back(32);
+
+    // Triangle 2
+    // v7
+    p.push_back(-1);
+    p.push_back(-1);
+    p.push_back(-1);
+    n.push_back(0);
+    n.push_back(-1);
+    n.push_back(0);
+    t.push_back(0.66);
+    t.push_back(1);
+    index.push_back(33);
+
+    // v6
+    p.push_back(1);
+    p.push_back(-1);
+    p.push_back(-1);
+    n.push_back(0);
+    n.push_back(-1);
+    n.push_back(0);
+    t.push_back(1);
+    t.push_back(1);
+    index.push_back(34);
+
+    // v2
+    p.push_back(1);
+    p.push_back(-1);
+    p.push_back(1);
+    n.push_back(0);
+    n.push_back(-1);
+    n.push_back(0);
+    t.push_back(1);
+    t.push_back(0.5);
+    index.push_back(35);
 
 
     // *******
-
-
 
 
     initVAO(index,p,n,t);
@@ -106,15 +608,68 @@ void Revolution::initRevolution() {
 
     vector<unsigned int> index;
 
-    int nbSlice=40; // include last slice that closes the object
-    int nbStack=_profile.size();
+    unsigned nbSlice=40; // include last slice that closes the object
+    unsigned nbStack=_profile.size();
 
+    std::vector<Vector3> faceNormalProfile;
     std::vector<Vector3> normalProfile; // to compute normal profile
 
     // *******
-    //  TODO
+    //  ITDID
 
 
+    // calcul des normales de chaque arete
+    for(unsigned i=0; i<nbStack-1; i++){
+        Vector3 dir = _profile[i+1]-_profile[i];
+        faceNormalProfile.push_back(Vector3(dir.y(),dir.x(),0));
+    }
+
+    // calcul des normales de chaque sommet
+    normalProfile.push_back(faceNormalProfile[0]);
+    for(unsigned i=0; i<nbStack-1; i++){
+        normalProfile.push_back((faceNormalProfile[i]+faceNormalProfile[i+1])/2);
+    }
+
+    // stacks
+    for(unsigned i=0; i<=nbStack; i++) {
+
+        // slices
+        for(unsigned j=0; j<nbSlice; j++) {
+
+            double theta = (double)(2*M_PI*j) / (double)nbSlice;
+
+            Vector3 tmp = _profile[i].rotationY(theta);
+            Vector3 ntmp = normalProfile[i].rotationY(theta);
+
+            float x = tmp.x();
+            float y = tmp.y();
+            float z = tmp.z();
+
+            p.push_back(x);
+            p.push_back(y);
+            p.push_back(z);
+
+            n.push_back(ntmp.x());
+            n.push_back(ntmp.y());
+            n.push_back(ntmp.z());
+
+            t.push_back(((float)nbSlice-(float)j) / (float)nbSlice);
+            t.push_back(((float)nbStack-(float)i) / (float)nbStack);
+
+        }
+    }
+
+    unsigned nbPoints = nbStack * (nbSlice-1);
+    for(unsigned i=0; i<nbPoints; i++) {
+
+        index.push_back(i+nbSlice);
+        index.push_back(i);
+        index.push_back(i+1);
+        index.push_back(i+1);
+        index.push_back(i+1+nbSlice);
+        index.push_back(i+nbSlice);
+
+    }
 
 
     // *******

@@ -60,7 +60,7 @@ private:
 
   Revolution _revolution;
 
-  ERequestInit _requestInit=Init_Sphere; // Init_Cube, Init_Revolution
+  ERequestInit _requestInit=Init_Cube; // Init_Cube, Init_Revolution
   Revolution::EShader _shaderMode=Revolution::Shader_Ambient; // Shader_Light, Shader_Texture
   EView _viewMode=View_3D; // View_2D for profile input
 
