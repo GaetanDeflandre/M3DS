@@ -25,6 +25,10 @@
 *.exe
 *.out
 *.app
+bin/
+
+# build folder
+build-*/
 
 # QT file trash
 *.pro.user
