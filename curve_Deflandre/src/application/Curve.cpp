@@ -23,7 +23,32 @@ Vector3 Curve::evalBezier(double t) {
                                           // on recopie les points de controles dans le tableau castel (castel est donc initialisé avec la première ligne de l'algo triangulaire).
 
         // A COMPLETER : appliquer la méthode de De Casteljau
+        unsigned n = _pts.size(); //degree
 
+        vector<Vector3> * tabDegree[n];
+
+        // Initialisation
+        for(unsigned i=0; i<=n; i++){
+            if(i==0){
+                tabDegree[0] = new vector<Vector3>(castel);
+            } else {
+                tabDegree[i] = new vector<Vector3>();
+            }
+        }
+
+        // Calcul
+        for(unsigned k=1; k<=n; k++){
+
+            unsigned size = tabDegree[k-1]->size();
+
+            for(unsigned i=0; i<size-1; i++){
+                // Cacul du point de degree k en i (formule du cours)
+                Vector3 Pki = (1-t)*tabDegree[k-1]->at(i) + t*tabDegree[k-1]->at(i+1);
+                tabDegree[k]->push_back(Pki);
+            }
+        }
+
+        castel[0] = tabDegree[n-1]->at(0);
 
         // le point de la courbe en t doit se trouver dans castel[0] à la fin de l'algo
         result=castel[0];
