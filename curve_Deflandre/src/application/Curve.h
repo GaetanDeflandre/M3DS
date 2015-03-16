@@ -26,10 +26,10 @@ class Curve : public p3d::InteractPosition {
 
 
 
-    public:
+public:
 
-  std::vector<p3d::Vector3> _pts;
-  std::vector<double> _angle;
+    std::vector<p3d::Vector3> _pts;
+    std::vector<double> _angle;
 
     Curve();
     virtual ~Curve();
@@ -60,7 +60,7 @@ class Curve : public p3d::InteractPosition {
 
     p3d::Vector3 evalCubicVelocity(double t);
     p3d::Vector3 evalCubicAcceleration(double t);
- //   void drawTBN(double t, p3d::Vector3 *oldB=NULL, bool *flip=NULL);
+    //   void drawTBN(double t, p3d::Vector3 *oldB=NULL, bool *flip=NULL);
     p3d::Matrix4 tbn(double t, p3d::Vector3 *previousB);
     p3d::Matrix4 frame(double t);
     p3d::Vector3 evalCubicTierce(double t);
