@@ -6,7 +6,7 @@
 #include "Matrix4.h"
 
 class Ray : public p3d::Line {
-  public:
+public:
     Ray();
     virtual ~Ray();
 
@@ -18,8 +18,8 @@ class Ray : public p3d::Line {
     void inside(bool a) {_inside=a;}
     bool inside() const {return _inside;}
 
-  protected:
-  private:
+protected:
+private:
     bool _inside;
 };
 
