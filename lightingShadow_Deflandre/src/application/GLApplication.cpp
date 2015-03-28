@@ -185,7 +185,7 @@ void GLApplication::update() {
     }
 
     _textureEyeMatrix.setIdentity();
-
+    _textureEyeMatrix = _projectorMatrix.inverse() * _camera.worldLocal();
 
     if (keyPressed(Qt::Key_A)) {
         _animate=!_animate;
