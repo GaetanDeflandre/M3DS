@@ -9,11 +9,21 @@ TP7: Light et Shadow Map
 
 ## Détails
 
-Doit contenir :
  - ce que vous n'avez pas fait (et pourquoi).
+ 
+   - intégralité du TP effectué.
+
+
  - difficultés rencontrées.
+ 
+   - difficulté a bien comprendre `texCoord.z` pour la dernière partie.
+
+
  - commentaires éventuels sur le TP (points à éclaircir, longueur du
    sujet, etc).
+   
+   - le TP était assez long à réaliser.
+   
 
 ## Réponses
 
@@ -30,8 +40,8 @@ sol. Si l'on trouve le bon angle, on remarque bien l'interpolation.
 
 ![Interpolation de la spécularité](media/snapshot/capture_0003.png)
 
-Avec la planète aussi, on le remarque et cela ne donne pas un bonne
-effet avec les mouvement de caméra.
+Avec la planète aussi, on le remarque et cela ne donne pas un bon
+effet avec les mouvements de caméra.
 
 ![Interpolation du spéculaire sur la planète](media/snapshot/capture_0004.png)
 
@@ -56,7 +66,7 @@ coordinates sont entre -1 et 1 pour x, y, z alors que les texture
 coordinates sont entre 0 et 1 pour x, y (pas de z car image 2D pour le
 moment).
 
-On ne voit pas la texture sur le fonc de la scène par il n'y pas
+On ne voit pas la texture sur le fond de la scène car il n'y a pas de
 triangles dans le fond, pas de sommets et donc pas de pixels où
 pourrait s'afficher la texture.
 
@@ -72,4 +82,20 @@ est fixe par rapport aux objets. Alors qu'avec les lignes:
 Il y a un changement de repère.
 
 Ensuite, avec l'affectation `fTexCoord=positionEye;` l'image est
-aligné avec la caméra, car on est dans le repère de celle-ci.
+alignée avec la caméra, car on est dans le repère de celle-ci.
+
+
+### Ombres portées par depth map
+
+#### Question 6
+
+fragColor.r représente les distances entre la source lumineuse et
+l'objet:
+ - pour les pixels où le r vaut 1 l'objet et loin.
+ - pour les pixels où le r vaut 0 le "pixel de l'objet" est sur le
+   repère.
+
+
+#### Question 10
+
+![Résultat fin de TP](media/snapshot/capture_0028.png)

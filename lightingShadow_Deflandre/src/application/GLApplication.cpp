@@ -148,9 +148,10 @@ void GLApplication::initialize() {
 
     _rtt.create(256,256);       // création d'un Frame Buffer de 256x256 pixels
 
-    _rtt.rtt(&_depthTexture,0); // 1er paramètre = Color Buffer des pixels (donc ici la texture _depthTexture; la texture porte donc mal son nom, *pour l'instant*, puisqu'elle va être affectée avec la couleur des pixels tracés),
+    //_rtt.rtt(&_depthTexture,0); // 1er paramètre = Color Buffer des pixels (donc ici la texture _depthTexture; la texture porte donc mal son nom, *pour l'instant*, puisqu'elle va être affectée avec la couleur des pixels tracés),
     // 2ième paramètre = Depth Buffer des pixels (0 signifie qu'un depth buffer par défaut est mis en place)
     // le Color Buffer et le Depth Buffer les dimensions fixées par _rtt.create(256,256)
+    _rtt.rtt(0, &_depthTexture);
 
     _depthTexture.wrap(GL_CLAMP_TO_BORDER);
     _depthTexture.filterLinear();
@@ -184,8 +185,10 @@ void GLApplication::update() {
         _projectorMatrix.mul(Matrix4::fromAngleAxis(deltaMouseY()*2,Vector3(1,0,0)));
     }
 
+    Matrix4 frustum = Matrix4::fromFrustum(-0.04,0.04,-0.04,0.04,0.1,100);
+
     _textureEyeMatrix.setIdentity();
-    _textureEyeMatrix = _projectorMatrix.inverse() * _camera.worldLocal();
+    _textureEyeMatrix = frustum * _projectorMatrix.inverse() * _camera.worldLocal();
 
     if (keyPressed(Qt::Key_A)) {
         _animate=!_animate;
@@ -261,7 +264,18 @@ void GLApplication::renderToTexture() {
     glViewport(0,0,_rtt.width(),_rtt.height()); // viewport aux dimensions du frame buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    p3d::projectionMatrix=_camera.projectionMatrix().fromFrustum(-0.04,0.04,-0.04,0.04,0.1,100);
+    //p3d::modelviewMatrix=_camera.localWorld();
+    p3d::modelviewMatrix = _projectorMatrix.inverse();
+    //_textureEyeMatrix = frustum * _projectorMatrix.inverse() * _camera.worldLocal();
 
+    _currentShader=&_perVertexLighting; // les tracés qui suivent se feront avec le shader _perVertexLighting (premier exercice)
+
+    // on trace toute la scène dans la rtt sauf le projecteur :
+    lightPosition();
+    drawGround();
+    drawEarth();
+    drawObject();
 
     _rtt.end(); // retour au frame buffer par défaut "normal"
 }
@@ -452,7 +466,9 @@ void GLApplication::lightPosition() { // should be called after camera setup in 
 void GLApplication::drawIncrustation() {
     p3d::ambientColor=Vector4(1,1,1,1);
 
-    p3d::drawTexture(_depthTexture,0,0,0.3,0.3,false);
+    //p3d::drawTexture(_depthTexture,0,0,0.3,0.3,false);
+    // Exo 3 Q5
+    p3d::drawTexture(_depthTexture,0,0,0.3,0.3,true);
 
 }
 

@@ -13,5 +13,10 @@ void main() {
     texCoord.xyz += 1;
     texCoord.xyz /= 2;
 
-    fragColor=texture(image1,texCoord.xy);
+
+    if(texCoord.z>=0){
+        fragColor = texture(image1,texCoord.xy);
+    } else {
+        fragColor = vec4(0,0,0,0);
+    }
 }
