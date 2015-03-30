@@ -37,7 +37,11 @@ void Sphere::intersection(const Ray &ray,IntersectionArray *result) {
 
     Vector3 A = ray.point();
     Vector3 u = ray.direction();
+
+    // Voir démonstration ex2q1.png
+
     double delta = (2*A.dot(u))*(2*A.dot(u)) - (4*u.dot(u)*(A.dot(A)-1));
+
     if (delta >0){
         double inter1,inter2;
         inter1 = ((-2*A.dot(u))-sqrt(delta))/(2*u.dot(u));
@@ -45,6 +49,7 @@ void Sphere::intersection(const Ray &ray,IntersectionArray *result) {
         result->addIntersection(inter1);
         result->addIntersection(inter2);
     }
+    // on ne prend pas en compte le delta égal 0 (raie tangente) car on a besoin des paires.
 }
 
 
