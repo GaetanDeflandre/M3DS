@@ -84,12 +84,12 @@ Vector3 Raytrace::computeLocalColor(const Intersection &intersection) {
     Vector3 V;
     Vector3 L;
 
-    P=intersection.point();
+    P = intersection.point();
 
-    N=intersection.normal();
+    N = intersection.normal();
     N.normalize();
 
-    V=intersection.incident().direction();
+    V = -intersection.incident().direction();
     V.normalize();
 
     Material m=intersection.node()->primitive()->material();
@@ -98,7 +98,7 @@ Vector3 Raytrace::computeLocalColor(const Intersection &intersection) {
 
     const unsigned nbLight = _scene->nbLight();
     for(unsigned i=0; i<nbLight; i++){
-        L = _scene->lightPosition(i);
+        L = _scene->lightPosition(i) - P;
         L.normalize();
         result = result + (m.diffuse() * max(N.dot(L),0.0));
     }
