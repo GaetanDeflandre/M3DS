@@ -48,103 +48,48 @@ void IntersectionArray::fusion(IntersectionArray &gauche,IntersectionArray &droi
         Intersection* inter;
 
         if(iG<sizeG && iD>=sizeD){
-            eG = true;
-            eD = false;
+
+            eG = !eG;
             inter = gauche[iG];
             iG++;
-        }
 
-        else if(iD<sizeD && iG>=sizeG){
-            eG = false;
-            eD = true;
+        } else if(iD<sizeD && iG>=sizeG){
+
+            eD = !eD;
             inter = droite[iD];
             iD++;
+
         } else {
 
             lambdaG = gauche[iG]->lambda();
             lambdaD = droite[iD]->lambda();
 
             if(lambdaG<lambdaD){
-                eG = true;
+                eG = !eG;
                 inter = gauche[iG];
                 iG++;
             } else {
-                eD = true;
+                eD = !eD;
                 inter = droite[iD];
                 iD++;
             }
         }
 
-        if(eD && eG){
-            push_back(inter);
-        }
-
-        /*
         switch (op) {
         case CsgTree::Node_Intersection:
-            cerr << "Error IntersectionArray::fusion: Node_Intersection not implem" << endl;
+            ePN = eG && eD;
             break;
 
         case CsgTree::Node_Union:
-
-            if(iG<sizeG && iD==sizeD){
-
-                this->push_back(gauche[iG]);
-                iG++;
-
-            } else if(iD<sizeD && iG==sizeG){
-
-                this->push_back(droite[iD]);
-                iD++;
-
-            } else {
-
-                lambdaG = gauche[iG]->lambda();
-                lambdaD = droite[iD]->lambda();
-
-                if(lambdaG<lambdaD){
-                    this->push_back(gauche[iG]);
-                    iG++;
-                } else {
-                    this->push_back(droite[iD]);
-                    iD++;
-                }
-            }
-
+            ePN = eG || eD;
             break;
 
         case CsgTree::Node_Difference:
-
-
-
-
-            if(iG<sizeG && iD==sizeD){
-                this->push_back(gauche[iG]);
-                iG++;
-            }
-
-            else if(iD<sizeD && iG==sizeG){
-                this->push_back(droite[iD]);
-                iD++;
-            } else {
-
-                lambdaG = gauche[iG]->lambda();
-                lambdaD = droite[iD]->lambda();
-
-                if(lambdaG<lambdaD){
-                    this->push_back(gauche[iG]);
-                    iG++;
-                } else {
-                    this->push_back(droite[iD]);
-                    iD++;
-                }
-            }
-
-
-
+            ePN = eG && !eD;
             break;
 
         case CsgTree::Node_Leaf:
+            // Affiche que les objets feuilles dans l'arbre
             cerr << "Error IntersectionArray::fusion: Node_Leaf not implem" << endl;
             break;
 
@@ -153,13 +98,12 @@ void IntersectionArray::fusion(IntersectionArray &gauche,IntersectionArray &droi
             break;
         }
 
-        */
+        if(ePN){
+            push_back(inter);
+            eN = ePN;
+        }
 
     }
-
-
-
-
 
 }
 

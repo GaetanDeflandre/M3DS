@@ -45,6 +45,13 @@ Vector3 Raytrace::computeRayColor(const Ray &ray, int level, double contribution
         if (inter!=NULL) { // existe-t-il une intersection avec la scène ?
             color=computeLocalColor(*inter); // calcul de la couleur par Phong
 
+            double reflection = inter->material().reflectionCoefficient();
+
+            if(reflection>0){
+                Vector3 colorFromReflec = computeRayColor(inter->computeReflectRay(), level-1, contribution*reflection);
+                // Question 3 fait avant de la lire (c'est logique)
+                color = (1-reflection)*color + reflection*colorFromReflec;
+            }
 
 
 
@@ -98,9 +105,28 @@ Vector3 Raytrace::computeLocalColor(const Intersection &intersection) {
 
     const unsigned nbLight = _scene->nbLight();
     for(unsigned i=0; i<nbLight; i++){
+
         L = _scene->lightPosition(i) - P;
         L.normalize();
-        result = result + (m.diffuse() * max(N.dot(L),0.0));
+
+        Vector3 R = (2*L.dot(N))*N - L;
+        R.normalize();
+
+        double coeff = max(V.dot(R),0.0);
+        coeff = pow(coeff,m.shininess());
+
+        Ray shadow = Ray(P,L);
+        Intersection* nearestIntersection = _scene->intersection(shadow,0.1);
+
+        if(nearestIntersection != NULL){
+            result = result + (m.diffuse() * max(N.dot(L),0.0)*0.1) + m.specular()*coeff;
+        } else {
+            result = result + (m.diffuse() * max(N.dot(L),0.0)) + m.specular()*coeff;
+        }
+
+
+
+        delete nearestIntersection;
     }
 
     return result;
