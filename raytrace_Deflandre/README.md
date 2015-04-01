@@ -13,9 +13,8 @@ TP8: Lancer de rayons sur CSG
   - Intégralité du TP terminé.
 
 - difficultés rencontrées.
-  - Les questions 1 des exercices 2 et 3 était particulièrement
-    dure. Il aurait été très difficile de trouver sans l'aide du
-    professeur.
+  - Les questions 1 des exercices 2 et 3 était particulièrement dure.
+    J'aurais pas trouvé sans l'aide du professeur.
 
 
 
