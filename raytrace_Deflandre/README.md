@@ -9,10 +9,13 @@ TP8: Lancer de rayons sur CSG
 
 ## Détails
 
-Doit contenir :
 - ce que vous n'avez pas fait (et pourquoi).
+  - Intégralité du TP terminé.
+
 - difficultés rencontrées.
-- commentaires éventuels sur le TP (points à éclaircir, longueur du sujet, etc). 
+  - Les questions 1 des exercices 2 et 3 était particulièrement dure.
+    J'aurais pas trouvé sans l'aide du professeur.
+
 
 
 ## Réponses
