@@ -93,17 +93,32 @@ void Engine::collisionPlane() {
 
                 Vector3 AP = plane->point() - p->position();
                 Vector3 H = plane->project(p->position());
-                double reduc = 0.9;
+                Vector3 n = plane->normal();
 
-                if (AP.dot(plane->normal()) > 0){
+                if (AP.dot(n) > 0){
 
-                    /* Ex1 Q3 */
-                    //p->velocity(Vector3(0,0,0));
+                    // Ex1 Q3
+                    /*
+                    p->velocity(Vector3(0,0,0));
+                    //*/
 
-                    /* Ex1 Q4 */
-                    velCorrection = -p->velocity();
-                    velCorrection += (p->velocity()*reduc).dot(plane->normal()) * plane->normal();
-                    posCorrection = H - (p->position());
+                    Vector3 vold = p->velocity();
+
+                    // Ex1 Q4
+                    //*
+                    velCorrection = -vold;
+
+                    Vector3 pRadius = Vector3(0,p->radius(),0);
+
+                    posCorrection = (1+_epsi) * ( H - (p->position() - pRadius) );
+                    //*/
+
+                    // Ex1 Q5
+                    //*
+                    double reduc = 0.6;
+                    velCorrection -= reduc * (1+_epsi) * ((vold).dot(n) * n);
+
+                    //*/
                 }
 
                 // appliquer les corrections calculées :
@@ -148,7 +163,25 @@ void Engine::interCollision() {
                     Vector3 velCorrectionP2(0,0,0); // correction en vitesse de P2
 
                     /* A COMPLETER */
+                    Vector3 v1old = p1->position();
+                    Vector3 v2old = p2->position();
 
+                    if(v1old.distance(v2old) < p1->radius()+p2->radius()){
+
+                        Vector3 n =  v2old - v1old;
+                        double k = computeImpulse(p1, p2, n, _epsi);
+                        double d = (v1old-v2old).length() - p1->radius() - p2->radius();
+
+
+                        double m1 = p1->mass();
+                        double m2 = p2->mass();
+
+                        posCorrectionP1 = (1+_epsi) * (m2/(m1+m2))*d*n;
+                        velCorrectionP1 = -(j/m1)*n;
+
+                        posCorrectionP2 = -(1+_epsi) * (m1/(m1+m2))*d*n;
+                        velCorrectionP2 = (j/m2)*n;
+                    }
 
                     // appliquer la correction éventuelle :
                     p1->addPositionCorrec(posCorrectionP1);
