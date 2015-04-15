@@ -57,6 +57,8 @@ protected:
   bool _modeParticle;
   p3d::Line _wind;
   bool _windEnable;
+
+  const double _epsi = 0.1;
 };
 
 #endif // ENGINE_H
