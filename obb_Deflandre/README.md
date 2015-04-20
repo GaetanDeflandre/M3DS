@@ -1,7 +1,22 @@
-Nom1 Prénom1
-Nom2 Prénom2
+TP10: OBB
+=========
 
-Doit contenir :
-- ce que vous n'avez pas fait (et pourquoi).
-- difficultés rencontrées.
-- commentaires éventuels sur le TP (points à éclaircir, longueur du sujet, etc). 
+
+## Auteur
+
+ - Gaëtan DEFLANDRE
+
+
+
+## Doit contenir
+
+ - ce que vous n'avez pas fait (et pourquoi).
+   - Toutes les questions du TP.
+
+ - difficultés rencontrées.
+   - Obtenir la collision des boites.
+   
+ - commentaires éventuels sur le TP (points à éclaircir, longueur du
+   sujet, etc).
+   - Il n'y a pas beaucoup indiquations sur l'avant dernière question,
+     pour obtenir la collision.

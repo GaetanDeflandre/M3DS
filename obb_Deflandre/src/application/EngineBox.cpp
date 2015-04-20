@@ -29,8 +29,12 @@ void EngineBox::computeForce(){
     for(unsigned int i=0; i<_boxList->size(); i++) {
         b=_boxList->at(i);
 
-        // A compléter
-        b->addForce(Vector3(0,-10,0));
+        // Gravité
+        b->addForce(Vector3(0,-20,0));
+
+        // Frottement
+        b->addForce(-1*b->velocity());
+        b->addMoment((-1*b->omega()));
     }
 
     if(_cursorActive){
@@ -41,10 +45,8 @@ void EngineBox::computeForce(){
 
         Vector3 F = l*10;
 
-        cout << "AP : " << AP << endl;
-
         b->addForce(F);
-        b->addMoment(-F, AP);
+        b->addMoment(F.cross(AP));
 
 
     }
