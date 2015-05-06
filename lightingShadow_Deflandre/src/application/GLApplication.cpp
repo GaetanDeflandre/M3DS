@@ -225,16 +225,19 @@ void GLApplication::leftPanel(int i,const std::string &s) {
 }
 
 void GLApplication::updateCamera() {
+
     if (mouseLeft()) {
         Vector3 center=_camera.pointTo(Coordinate_Local,Vector3(0,0,0));
         Vector3 vertical=Vector3(0,1,0);
         if (_orbitalCamera) {
+            // caméra orbital
             _camera.translate(center,Coordinate_Local);
             _camera.rotate(-deltaMouseX()/2.0,vertical,Coordinate_World);
             _camera.rotate(deltaMouseY()/2.0,Vector3(1,0,0),Coordinate_Local);
             _camera.translate(-center,Coordinate_Local);
         }
         else {
+            // caméra First-Person
             _camera.rotate(-deltaMouseX()/2.0,vertical,Coordinate_World);
             _camera.rotate(deltaMouseY()/2.0,Vector3(1,0,0),Coordinate_Local);
         }
